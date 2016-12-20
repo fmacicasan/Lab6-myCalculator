@@ -74,12 +74,19 @@ public class Calculator extends HttpServlet {
         out.println("</head>");
 
         out.println("<body>");
-
-        for (String h : history) {
-            out.println(h + "<br />");
+        out.println("<table>");
+        out.println("<tr>");
+        out.println("<th>Index</th>");
+        out.println("<th>Operation</th>");
+        out.println("</tr>");
+        for (int i = 0; i < history.length ; i++) {
+            out.println("<tr>");
+            out.println("<td>" + i + "</td>");
+            out.println("<td>" + history[i] + "</td>");
+            out.println("</tr>");
         }
 
-
+        out.println("</table>");
         out.println("</body>");
         out.close();
     }
