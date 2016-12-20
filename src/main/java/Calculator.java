@@ -82,4 +82,16 @@ public class Calculator extends HttpServlet {
         out.println("</body>");
         out.close();
     }
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        System.out.println("Initializing Servlet!");
+    }
+
+    @Override
+    public void destroy() {
+        System.out.println("Destroying Servlet!");
+        super.destroy();
+    }
 }
