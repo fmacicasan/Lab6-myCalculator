@@ -26,11 +26,7 @@ public class Calculator extends HttpServlet {
 
         // do the work (apply the operation)
         double resultValue=0;
-        //save history
-        String operation = nr1 + " " + sOp + " " + nr2;
-        history[index] = operation;
-        index++;
-        System.out.println(operation);
+
         switch (sOp) {
             case "+":
                 resultValue = nr1 + nr2;
@@ -49,11 +45,18 @@ public class Calculator extends HttpServlet {
                 break;
         }
 
+        //save history
+        String operation = nr1 + " " + sOp + " " + nr2 + "=" + resultValue;
+        history[index] = operation;
+        index++;
+        System.out.println(operation);
+
         // write results to response
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out =resp.getWriter();
         out.println("<h2>Calculate </h2>");
 
+        // result of <b>10 + 5 = 15<b>
         out.println("result is: <b>"+resultValue+"</b><br/>");
         out.println("<a href='/'>Go Back</a>");
 
@@ -84,7 +87,7 @@ public class Calculator extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        getServletContext().log("init() called");
+        System.out.println("init() called");
     }
 
     @Override
