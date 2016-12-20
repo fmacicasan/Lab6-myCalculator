@@ -13,16 +13,20 @@ public class Calculator extends HttpServlet {
     private int index = 0;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
 
-        String sNr1=req.getParameter("nr1");
-        String sNr2=req.getParameter("nr2");
-        String sOp=req.getParameter("op");
+        //get input as string
+        String sNr1=request.getParameter("nr1");
+        String sNr2=request.getParameter("nr2");
+        String sOp=request.getParameter("op");
 
+        // parse strings to integer
         int nr1=Integer.parseInt(sNr1);
         int nr2=Integer.parseInt(sNr2);
-        double resultValue=0;
 
+        // do the work (apply the operation)
+        double resultValue=0;
+        //save history
         String operation = nr1 + " " + sOp + " " + nr2;
         history[index] = operation;
         index++;
@@ -45,29 +49,23 @@ public class Calculator extends HttpServlet {
                 break;
         }
 
-
+        // write results to response
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out =resp.getWriter();
-        out.println("<html>");
-        out.println("<head>");
-        out.println("<title>Calcule </title>");
-        out.println("</head>");
-
-        out.println("<body>");
-
+        out.println("<h2>Calculate </h2>");
 
         out.println("result is: <b>"+resultValue+"</b><br/>");
-        out.println("<a href='/'>Go Backk</a>");
+        out.println("<a href='/'>Go Back</a>");
 
-        out.println("</body>");
+        // finished writing, send to browser
         out.close();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        out.println("<html>");
         out.println("<head>");
         out.println("<title>Istoric </title>");
         out.println("</head>");
@@ -86,7 +84,7 @@ public class Calculator extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        System.out.println("Initializing Servlet!");
+        getServletContext().log("init() called");
     }
 
     @Override
