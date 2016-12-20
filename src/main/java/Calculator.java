@@ -57,7 +57,7 @@ public class Calculator extends HttpServlet {
         out.println("<h2>Calculate </h2>");
 
         // result of <b>10 + 5 = 15<b>
-        out.println("result is: <b>"+resultValue+"</b><br/>");
+        out.println("result of <b>"+operation+"</b><br/>");
         out.println("<a href='/'>Go Back</a>");
 
         // finished writing, send to browser
