@@ -5,12 +5,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
 @WebServlet("/calculator")
 public class Calculator extends HttpServlet {
 
-    private String[] history = new String[100];
-    private int index = 0;
+    private List<String> history = new ArrayList<>();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,8 +48,7 @@ public class Calculator extends HttpServlet {
 
         //save history
         String operation = nr1 + " " + sOp + " " + nr2 + "=" + resultValue;
-        history[index] = operation;
-        index++;
+        history.add(operation);
         System.out.println(operation);
 
         // write results to response
@@ -79,10 +79,10 @@ public class Calculator extends HttpServlet {
         out.println("<th>Index</th>");
         out.println("<th>Operation</th>");
         out.println("</tr>");
-        for (int i = 0; i < index ; i++) {
+        for (int i = 0; i < history.size() ; i++) {
             out.println("<tr>");
             out.println("<td>" + i + "</td>");
-            out.println("<td>" + history[i] + "</td>");
+            out.println("<td>" + history.get(i) + "</td>");
             out.println("</tr>");
         }
 
