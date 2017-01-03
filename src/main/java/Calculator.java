@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 @WebServlet("/calculator")
 public class Calculator extends HttpServlet {
 
-    private String[] history = new String[5];
+    private String[] history = new String[100];
     private int index = 0;
 
     @Override
