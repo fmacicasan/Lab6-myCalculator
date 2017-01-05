@@ -41,6 +41,9 @@ public class Calculator extends HttpServlet {
             case "/":
                 resultValue = (double) nr1 / nr2;
                 break;
+            case "%":
+                resultValue = nr1 % nr2;
+                break;
             default:
                 String result = "Invalid Operation:" + sOp;
                 publishResult(resp, result);
