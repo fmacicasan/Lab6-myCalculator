@@ -22,8 +22,19 @@ public class Calculator extends HttpServlet {
         String sOp=request.getParameter("op");
 
         // parse strings to integer
-        int nr1=Integer.parseInt(sNr1);
-        int nr2=Integer.parseInt(sNr2);
+        int nr1, nr2;
+        try {
+            nr1 = Integer.parseInt(sNr1);
+        } catch (NumberFormatException e) {
+            publishResult(resp, "Invalid nr1:" + sNr1);
+            return;
+        }
+        try {
+            nr2 = Integer.parseInt(sNr2);
+        } catch (NumberFormatException e) {
+            publishResult(resp, "Invalid nr2:" + sNr2);
+            return;
+        }
 
         // do the work (apply the operation)
         double resultValue=0;
