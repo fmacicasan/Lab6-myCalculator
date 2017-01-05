@@ -42,22 +42,30 @@ public class Calculator extends HttpServlet {
                 resultValue = (double) nr1 / nr2;
                 break;
             default:
-                System.out.println("Operation not supported " + sOp);
-                break;
+                String result = "Invalid Operation:" + sOp;
+                publishResult(resp, result);
+                return;
         }
 
         //save history
         String operation = nr1 + " " + sOp + " " + nr2 + "=" + resultValue;
-        history.add(operation);
-        System.out.println(operation);
+        publishResult(resp, operation);
+    }
 
+    private void publishResult(HttpServletResponse resp, String result) throws IOException {
+        history.add(result);
+        writeResultToResponse(resp, result);
+    }
+
+    private void writeResultToResponse(HttpServletResponse resp, String result) throws IOException {
+        System.out.println(result);
         // write results to response
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out =resp.getWriter();
         out.println("<h2>Calculate </h2>");
 
-        // result of <b>10 + 5 = 15<b>
-        out.println("result of <b>"+operation+"</b><br/>");
+        // result - <b>10 + 5 = 15<b>
+        out.println("result - <b>"+result+"</b><br/>");
         out.println("<a href='/'>Go Back</a>");
 
         // finished writing, send to browser
