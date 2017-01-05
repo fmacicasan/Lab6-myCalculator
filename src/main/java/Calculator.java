@@ -11,7 +11,7 @@ import java.util.List;
 @WebServlet("/calculator")
 public class Calculator extends HttpServlet {
 
-    private List<String> history = new ArrayList<>();
+    private List<Operation> history = new ArrayList<>();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
@@ -26,13 +26,13 @@ public class Calculator extends HttpServlet {
         try {
             nr1 = Integer.parseInt(sNr1);
         } catch (NumberFormatException e) {
-            publishResult(resp, "Invalid nr1:" + sNr1);
+            publishResult(resp, new Operation(sNr1, sOp, sNr2, "Invalid Nr1"));
             return;
         }
         try {
             nr2 = Integer.parseInt(sNr2);
         } catch (NumberFormatException e) {
-            publishResult(resp, "Invalid nr2:" + sNr2);
+            publishResult(resp, new Operation(sNr1, sOp, sNr2, "Invalid Nr2"));
             return;
         }
 
@@ -56,22 +56,20 @@ public class Calculator extends HttpServlet {
                 resultValue = nr1 % nr2;
                 break;
             default:
-                String result = "Invalid Operation:" + sOp;
-                publishResult(resp, result);
+                publishResult(resp, new Operation(sNr1, sOp, sNr2, "Invalid Operation"));
                 return;
         }
 
         //save history
-        String operation = nr1 + " " + sOp + " " + nr2 + "=" + resultValue;
-        publishResult(resp, operation);
+        publishResult(resp, new Operation(sNr1, sOp, sNr2, String.valueOf(resultValue)));
     }
 
-    private void publishResult(HttpServletResponse resp, String result) throws IOException {
+    private void publishResult(HttpServletResponse resp, Operation result) throws IOException {
         history.add(result);
         writeResultToResponse(resp, result);
     }
 
-    private void writeResultToResponse(HttpServletResponse resp, String result) throws IOException {
+    private void writeResultToResponse(HttpServletResponse resp, Operation result) throws IOException {
         System.out.println(result);
         // write results to response
         resp.setContentType("text/html;charset=UTF-8");
@@ -99,12 +97,18 @@ public class Calculator extends HttpServlet {
         out.println("<table>");
         out.println("<tr>");
         out.println("<th>Index</th>");
+        out.println("<th>Parameter1</th>");
         out.println("<th>Operation</th>");
+        out.println("<th>Parameter2</th>");
+        out.println("<th>Result</th>");
         out.println("</tr>");
         for (int i = 0; i < history.size() ; i++) {
             out.println("<tr>");
             out.println("<td>" + i + "</td>");
-            out.println("<td>" + history.get(i) + "</td>");
+            out.println("<td>" + history.get(i).getNr1() + "</td>");
+            out.println("<td>" + history.get(i).getOp() + "</td>");
+            out.println("<td>" + history.get(i).getNr2() + "</td>");
+            out.println("<td>" + history.get(i).getResult() + "</td>");
             out.println("</tr>");
         }
 
