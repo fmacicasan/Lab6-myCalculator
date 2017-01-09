@@ -24,11 +24,6 @@ public class DemoCRUDOperations {
             demoUpdate();
             demoDelete();
 
-            // demoBlobInsert();
-            // demoBlobRead();
-
-
-
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (SQLException e) {
@@ -39,56 +34,52 @@ public class DemoCRUDOperations {
 
     private static void demoCreate() throws ClassNotFoundException, SQLException {
 
-        // 1. load driver, no longer needed in new versions of JDBC
-        Class.forName("org.postgresql.Driver");
-
-        // 2. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/fast1";
+        // 1. define connection params to db
+        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
         final String USERNAME = "fasttrackit_dev";
         final String PASSWORD = "fasttrackit_dev";
 
-        // 3. obtain a connection
+        // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        // 4. create a query statement
-        PreparedStatement pSt = conn.prepareStatement("INSERT INTO USERS (NAME, PASSWORD) VALUES (?,?)");
-        pSt.setString(1, "ionel");
+        // 3. create a query statement
+        PreparedStatement pSt = conn.prepareStatement("INSERT INTO socialuser (username, PASSWORD) VALUES (?,?)");
+        pSt.setString(1, "george");
         pSt.setString(2, "password1");
 
-        // 5. execute a prepared statement
+        // 4. execute a prepared statement
         int rowsInserted = pSt.executeUpdate();
+        System.out.println("Inserted " + rowsInserted + " rows.");
 
-        // 6. close the objects
+        // 5. close the objects
         pSt.close();
         conn.close();
     }
 
     private static void demoRead() throws ClassNotFoundException, SQLException {
-        // 1. load driver, no longer needed in new versions of JDBC
-        Class.forName("org.postgresql.Driver");
 
-        // 2. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/fast1";
+        // 1. define connection params to db
+        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
         final String USERNAME = "fasttrackit_dev";
         final String PASSWORD = "fasttrackit_dev";
 
-        // 3. obtain a connection
+        // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        // 4. create a query statement
+        // 3. create a query statement
         Statement st = conn.createStatement();
 
-        // 5. execute a query
-        ResultSet rs = st.executeQuery("SELECT name,password FROM users");
+        // 4. execute a query
+        ResultSet rs = st.executeQuery("SELECT username,password FROM socialuser");
 
-        // 6. iterate the result set and print the values
+        // 5. iterate the result set and print the values
         while (rs.next()) {
-            System.out.print(rs.getString("name").trim());
+            System.out.print(rs.getString("username").trim());
             System.out.print("---");
             System.out.println(rs.getString("password").trim());
         }
 
-        // 7. close the objects
+        // 6. close the objects
         rs.close();
         st.close();
         conn.close();
@@ -96,27 +87,25 @@ public class DemoCRUDOperations {
 
     private static void demoUpdate() throws ClassNotFoundException, SQLException {
 
-        // 1. load driver, no longer needed in new versions of JDBC
-        Class.forName("org.postgresql.Driver");
-
-        // 2. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/fast1";
+        // 1. define connection params to db
+        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
         final String USERNAME = "fasttrackit_dev";
         final String PASSWORD = "fasttrackit_dev";
 
-        // 3. obtain a connection
+        // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        // 4. create a query statement
-        PreparedStatement pSt = conn.prepareStatement("UPDATE USERS SET NAME=?, PASSWORD=? WHERE PK_USER=?"); //so we have 3 params
-        pSt.setString(1, "ionelcondor");
+        // 3. create a query statement
+        PreparedStatement pSt = conn.prepareStatement("UPDATE socialuser SET username=?, PASSWORD=? WHERE username=?"); //so we have 3 params
+        pSt.setString(1, "marcel");
         pSt.setString(2, "password1");
-        pSt.setLong(3, 1);
+        pSt.setString(3, "george");
 
-        // 5. execute a prepared statement
+        // 4. execute a prepared statement
         int rowsUpdated = pSt.executeUpdate();
+        System.out.println("Updated " + rowsUpdated + " rows.");
 
-        // 6. close the objects
+        // 5. close the objects
         pSt.close();
         conn.close();
     }
@@ -124,25 +113,22 @@ public class DemoCRUDOperations {
 
     private static void demoDelete() throws ClassNotFoundException, SQLException {
 
-        // 1. load driver, no longer needed in new versions of JDBC
-        Class.forName("org.postgresql.Driver");
-
-        // 2. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/fast1";
+        // 1. define connection params to db
+        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
         final String USERNAME = "fasttrackit_dev";
         final String PASSWORD = "fasttrackit_dev";
 
-        // 3. obtain a connection
+        // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-        // 4. create a query statement
-        PreparedStatement pSt = conn.prepareStatement("DELETE FROM USERS WHERE PK_USER=?");
-        pSt.setLong(1, 1);
+        // 3. create a query statement
+        PreparedStatement pSt = conn.prepareStatement("DELETE FROM socialuser WHERE username=?");
+        pSt.setString(1, "marcel");
 
-        // 5. execute a prepared statement
+        // 4. execute a prepared statement
         int rowsDeleted = pSt.executeUpdate();
         System.out.println(rowsDeleted + " rows were deleted.");
-        // 6. close the objects
+        // 5. close the objects
         pSt.close();
         conn.close();
     }
