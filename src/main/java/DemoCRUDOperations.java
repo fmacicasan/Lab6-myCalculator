@@ -14,6 +14,10 @@ import java.sql.*;
  */
 public class DemoCRUDOperations {
 
+    // 1. define connection params to db
+    private final static String URL = "jdbc:postgresql://IP:5432/test";
+    private final static String USERNAME = "fasttrackit_dev";
+    private final static String PASSWORD = "fasttrackit_dev";
 
     public static void main(String[] args) {
         System.out.println("Hello database users! We are going to call DB from Java");
@@ -32,12 +36,7 @@ public class DemoCRUDOperations {
 
     }
 
-    private static void demoCreate() throws ClassNotFoundException, SQLException {
-
-        // 1. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
-        final String USERNAME = "fasttrackit_dev";
-        final String PASSWORD = "fasttrackit_dev";
+    private static void demoCreate() throws SQLException {
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -57,11 +56,6 @@ public class DemoCRUDOperations {
     }
 
     private static void demoRead() throws ClassNotFoundException, SQLException {
-
-        // 1. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
-        final String USERNAME = "fasttrackit_dev";
-        final String PASSWORD = "fasttrackit_dev";
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -87,11 +81,6 @@ public class DemoCRUDOperations {
 
     private static void demoUpdate() throws ClassNotFoundException, SQLException {
 
-        // 1. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
-        final String USERNAME = "fasttrackit_dev";
-        final String PASSWORD = "fasttrackit_dev";
-
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
@@ -112,11 +101,6 @@ public class DemoCRUDOperations {
 
 
     private static void demoDelete() throws ClassNotFoundException, SQLException {
-
-        // 1. define connection params to db
-        final String URL = "jdbc:postgresql://IP:5432/YOUR_DB";
-        final String USERNAME = "fasttrackit_dev";
-        final String PASSWORD = "fasttrackit_dev";
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
