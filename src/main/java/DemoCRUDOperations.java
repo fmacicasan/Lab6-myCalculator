@@ -36,7 +36,10 @@ public class DemoCRUDOperations {
 
     }
 
-    private static void demoCreate() throws SQLException {
+    private static void demoCreate() throws SQLException, ClassNotFoundException {
+
+        // 1. load the driver
+        Class.forName("org.postgresql.Driver");
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -56,6 +59,9 @@ public class DemoCRUDOperations {
     }
 
     private static void demoRead() throws ClassNotFoundException, SQLException {
+
+        // 1. load the driver
+        Class.forName("org.postgresql.Driver");
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
@@ -81,6 +87,9 @@ public class DemoCRUDOperations {
 
     private static void demoUpdate() throws ClassNotFoundException, SQLException {
 
+        // 1. load the driver
+        Class.forName("org.postgresql.Driver");
+
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
@@ -101,6 +110,9 @@ public class DemoCRUDOperations {
 
 
     private static void demoDelete() throws ClassNotFoundException, SQLException {
+
+        // 1. load the driver
+        Class.forName("org.postgresql.Driver");
 
         // 2. obtain a connection
         Connection conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
