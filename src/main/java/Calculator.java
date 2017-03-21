@@ -71,7 +71,7 @@ public class Calculator extends HttpServlet {
         out.println("</head>");
 
         out.println("<body>");
-        out.println("Istoric:");
+        out.println("Istoric:<br />");
         for (int i=0; i< index; i++) {
             out.println(history[i] + "<br />");
         }
