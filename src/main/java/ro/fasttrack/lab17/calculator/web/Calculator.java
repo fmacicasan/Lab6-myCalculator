@@ -1,3 +1,9 @@
+package ro.fasttrack.lab17.calculator.web;
+
+import ro.fasttrack.lab17.calculator.dataTransferObject.OperationDTO;
+import ro.fasttrack.lab17.calculator.service.OperationNotSupported;
+import ro.fasttrack.lab17.calculator.service.OperationService;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -6,11 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet("/calculator")
+@WebServlet("/calc")
 public class Calculator extends HttpServlet {
 
-    private String[] history = new String[5];
-    private int index = 0;
+    private OperationService operationService = new OperationService();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
@@ -21,33 +26,8 @@ public class Calculator extends HttpServlet {
         String sOp=request.getParameter("op");
 
         // parse strings to integer
-        int nr1=Integer.parseInt(sNr1);
-        int nr2=Integer.parseInt(sNr2);
-
-        // do the work (apply the operation)
-        double resultValue=0;
-        //save history
-        String operation = nr1 + " " + sOp + " " + nr2;
-        history[index] = operation;
-        index++;
-        System.out.println(operation);
-        switch (sOp) {
-            case "+":
-                resultValue = nr1 + nr2;
-                break;
-            case "-":
-                resultValue = nr1 - nr2;
-                break;
-            case "*":
-                resultValue = nr1 * nr2;
-                break;
-            case "/":
-                resultValue = (double) nr1 / nr2;
-                break;
-            default:
-                System.out.println("Operation not supported " + sOp);
-                break;
-        }
+        try {
+           double resultValue = operationService.performOperation(sNr1, sOp, sNr2);
 
         // write results to response
         resp.setContentType("text/html;charset=UTF-8");
@@ -55,11 +35,24 @@ public class Calculator extends HttpServlet {
         out.println("<h2>Calculate </h2>");
 
         out.println("result is: <b>"+resultValue+"</b><br/>");
-        out.println("<a href='/'>Go Back</a>");
+        out.println("<a href='/calculator_war_exploded'>Go Back</a>");
 
         // finished writing, send to browser
         out.close();
+        } catch (NumberFormatException e) {
+            endRequestWithError(resp, "The numbers are invalid");
+        } catch (OperationNotSupported e) {
+            endRequestWithError(resp, "Operation " + e.getOp() + " is not supported.");
+        }
     }
+
+    private void endRequestWithError(HttpServletResponse resp, String message) throws IOException {
+        PrintWriter writer = resp.getWriter();
+        writer.write(message);
+        resp.setStatus(422);
+        writer.close();
+    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -72,10 +65,21 @@ public class Calculator extends HttpServlet {
 
         out.println("<body>");
         out.println("Istoric:<br />");
-        for (int i=0; i< index; i++) {
-            out.println(history[i] + "<br />");
-        }
+        out.println("<table>");
+        // op1 op op2 result
+        out.println("<tr><th>op1</th><th>op</th><th>op2</th><th>result</th>");
+        //history[0] = "5 + 10 = 15"
+        // 5 + 10 15
 
+        for (OperationDTO value : operationService.listOperations()) {
+            out.print("<tr>");
+            out.print("<td>" + value.op1() + "</td>");
+            out.print("<td>" + value.op() + "</td>");
+            out.print("<td>" + value.op2() + "</td>");
+            out.print("<td>" + value.result() + "</td>");
+            out.print("</tr>");
+        }
+        out.println("</table>");
 
         out.println("</body>");
         out.close();
