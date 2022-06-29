@@ -8,6 +8,8 @@ import ro.fasttrack.lab17.calculator.repository.PostgresOperationRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * @author flo
@@ -45,27 +47,29 @@ public class OperationService {
         double resultValue=0;
         //save history
         String operation = nr1 + " " + sOp + " " + nr2;
+        MyOperation performedOperation;
         System.out.println(operation);
         switch (sOp) {
             case "+":
-                resultValue = nr1 + nr2;
+                performedOperation = Integer::sum;
                 break;
             case "-":
-                resultValue = nr1 - nr2;
+                performedOperation = (a, b) -> a - b;
                 break;
             case "*":
-                resultValue = nr1 * nr2;
+                performedOperation = (a, b) -> a * b;
                 break;
             case "/":
-                resultValue = (double) nr1 / nr2;
+                performedOperation = (n1, n2) -> (double) n1 / n2;
                 break;
             case "%":
-                resultValue = nr1 % nr2;
+                performedOperation = (a, b) -> a % b;
                 break;
             default:
                 System.out.println("Operation not supported " + sOp);
                 throw new OperationNotSupported(sOp);
         }
+        resultValue = performedOperation.doOp(nr1, nr2);
 
         operationRepository.save(new OperationDTO(nr1, sOp, nr2, resultValue));
         return resultValue;
