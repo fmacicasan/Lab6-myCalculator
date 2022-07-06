@@ -2,6 +2,7 @@ package ro.fasttrack.lab18.homework;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,16 @@ public class PersonStream {
                 .filter(p -> p.age() > min)
                 .filter(p -> p.age() < max)
                 .toList();
+    }
+
+    public static Map<String, Long> groupByCity(List<Person> person) {
+        if(person == null) {
+            return Map.of();
+        }
+        return person.stream()
+                .collect(Collectors.groupingBy(Person::city, Collectors.counting()));
+//        Person p = person.get(0);
+//        return Map.of(p.city(), 1);
     }
 }
 

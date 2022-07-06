@@ -7,6 +7,10 @@ package ro.fasttrack.lab18.homework;
 public class Recursion {
     public static void main(String[] args) {
         //156 => sumDiggits(156) => 12
+        int input = 156;
+        int output = sumDiggits(input);
+        System.out.println(output == 12);
+
         System.out.println(sumDiggits(156) == 12);
         System.out.println(sumDiggits(456) == 15);
         System.out.println(sumDiggits(4) == 4);
@@ -14,7 +18,7 @@ public class Recursion {
         System.out.println(sumDiggits(-124) == 7);
     }
 
-    private static int sumDiggits(int number) {
+    public static int sumDiggits(int number) {
         if(number < 0) {
             // number = number * -1 // solutie in care modificam input-ul si nu e in spirit recursiv si functional
             return sumDiggits(-1 * number);
